@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: white;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.rounded-custom {
+  border-radius: 25px;
+}
+
+.video-controls-container {
+  width: 100%;
+  z-index: 100;
+}
+
+.full-screen-button-section {
+  z-index: 100;
+}
+
+.thumbnail {
+  width: 25rem;
+}
+
+.thumbnail:hover {
+  width: 100%;
+  transition: all 210ms ease-in-out;
+}
+
+.timer-section {
+  z-index: 100;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-container {
+  z-index: 100;
+  bottom: 4.5rem;
+}
+
+.timeline {
+  background-color: rgb(100, 100, 100);
+}
+
+.video-container:hover .video-controls-container,
+.video-container:focus-within .video-controls-container,
+.video-container.paused .video-controls-container,
+.video-container:hover .full-screen-button-section,
+.video-container:focus-within .full-screen-button-section,
+.video-container.paused .full-screen-button-section,
+.video-container:hover .timer-section,
+.video-container:focus-within .timer-section,
+.video-container.paused .timer-section {
+  opacity: 1;
+}
+
+.video-controls-container .play-pause-button {
+  transform: translateX(-50%);
+}
+
+.video-controls-container::before {
+  position: absolute;
+  bottom: 0;
+  content: '';
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  width: 100%;
+  aspect-ratio: 6/1;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.video-container.full-screen {
+  max-width: initial;
+  width: 100%;
+  max-height: 100%;
+}

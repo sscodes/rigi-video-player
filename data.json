@@ -1,0 +1,22 @@
+{
+  "videos": [
+    {
+      "id":1,
+      "title": "Luca",
+      "path": "./src/assets/Luca.mp4",
+      "thumbnail": "./src/assets/Luca.jpg"
+    },
+    {
+      "id":2,
+      "title": "Encanto",
+      "path": "./src/assets/Encanto.mp4",
+      "thumbnail": "./src/assets/Encanto.jpg"
+    },
+    {
+      "id":3,
+      "title": "Coco",
+      "path": "./src/assets/Coco.mp4",
+      "thumbnail": "./src/assets/Coco.jpg"
+    }
+  ]
+}
