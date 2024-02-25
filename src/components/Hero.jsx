@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import VideoSection from './VideoSection';
 import Header from './Header';
 import Playlist from './Playlist';
+import VideoContext from '../context/VideoContext';
+import VideosContext from '../context/VideosContext';
 
 const Hero = () => {
-  const [videos, setVideos] = useState([]);
-  const [video, setVideo] = useState({});
+  const { setVideo } = useContext(VideoContext);
+  const { setVideos } = useContext(VideosContext);
 
   useEffect(() => {
     fetch('../../data.json')
@@ -15,24 +17,20 @@ const Hero = () => {
         } else throw new Error('Error');
       })
       .then((data) => {
-        setVideo(data.videos[0]);
-        setVideos(data.videos);
+        setVideo(data.categories[0].videos[0]);
+        setVideos(data.categories[0].videos);
       })
       .catch((err) => console.log(err));
   }, []);
-
-  useEffect(() => {
-    console.log(video);
-  }, [video]);
 
   return (
     <div className='grid grid-rows-12 h-screen'>
       <Header />
       <div className='row-span-10 grid grid-cols-7 align-middle'>
         <div className='col-span-7 lg:col-span-5 flex items-center'>
-          <VideoSection video={video} />
+          <VideoSection />
         </div>
-        <Playlist videos={videos} setVideo={setVideo} />
+        <Playlist />
       </div>
       <Header />
     </div>

@@ -1,29 +1,70 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { FaCirclePlay } from 'react-icons/fa6';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
 import { FaPauseCircle } from 'react-icons/fa';
-import { BiFullscreen } from 'react-icons/bi';
-import { BiExitFullscreen } from 'react-icons/bi';
+import { FaCirclePlay } from 'react-icons/fa6';
+import VideoContext from '../context/VideoContext';
+import { BsToggle2On } from 'react-icons/bs';
+import { BsToggle2Off } from 'react-icons/bs';
+import VideosContext from '../context/VideosContext';
 
-const VideoSection = ({ video }) => {
+const VideoSection = () => {
   const [progress, setProgress] = useState(50);
   const [paused, setPaused] = useState(true);
   const [fullScreen, setFullScreen] = useState(false);
   const [currentTime, setCurrentTime] = useState(null);
   const [fullScreenMouseMove, setFullScreenMouseMove] = useState('initial');
   const [playbackRate, setPlaybackRate] = useState(1);
+  const [autoplay, setAutoplay] = useState(
+    JSON.parse(localStorage.getItem('autoplay'))
+  );
+  const [nextVideo, setNextVideo] = useState({});
+
+  const { video, setVideo } = useContext(VideoContext);
+  const { videos } = useContext(VideosContext);
 
   const videoRef = useRef(null);
 
+  // autoplay
+  useEffect(() => {
+    if (videos.length) {
+      for (let index = 0; index < videos.length; index++) {
+        if (videos[index].title === video.title) {
+          if (index !== videos.length - 1) {
+            setNextVideo(videos[index + 1]);
+          } else {
+            setNextVideo(videos[0]);
+          }
+        }
+      }
+    }
+  }, [videos, nextVideo]);
+
+  // autoplay
+  const toggleAutoplay = () => {
+    localStorage.setItem('autoplay', !autoplay);
+    setAutoplay((e) => !e);
+  };
+
+  // autoplay
+  useEffect(() => {
+    if (!paused) {
+      videoRef.current.play();
+    }
+  }, [video]);
+
+  // toggle play pause
   const pauseVideo = () => {
     setPaused(true);
     videoRef.current.pause();
   };
 
+  // toggle play pause
   const playVideo = () => {
     setPaused(false);
     videoRef.current.play();
   };
 
+  // full screen section
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector('.video-container');
     if (document.fullscreenElement == null) {
@@ -35,6 +76,7 @@ const VideoSection = ({ video }) => {
     }
   };
 
+  // timer section
   const setFullTime = (time) => {
     let hours =
       time / (60 * 60) > 0 &&
@@ -64,6 +106,20 @@ const VideoSection = ({ video }) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (
+      videoRef?.current &&
+      videoRef?.current?.currentTime == videoRef?.current?.duration
+    ) {
+      if (autoplay) {
+        setVideo(nextVideo);
+      } else {
+        videoRef.current.currentTime = 0;
+        setProgress(0);
+      }
+    }
+  }, [videoRef?.current?.currentTime]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -166,8 +222,19 @@ const VideoSection = ({ video }) => {
                 ></div>
               </div>
             </div>
-            <div className='control-buttons absolute left-1/2 bottom-2 grid grid-cols-2 items-center gap-2'>
-              <div className='play-pause-button opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'>
+            <div className='control-buttons absolute w-96 left-1/2 bottom-2 grid grid-cols-3 items-center'>
+              <div className='flex justify-center' onClick={toggleAutoplay}>
+                {autoplay ? (
+                  <div className='text-white text-5xl'>
+                    <BsToggle2On />
+                  </div>
+                ) : (
+                  <div className='text-white text-5xl'>
+                    <BsToggle2Off />
+                  </div>
+                )}
+              </div>
+              <div className='flex justify-center play-pause-button opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'>
                 {paused ? (
                   <button className='text-white text-5xl' onClick={playVideo}>
                     <FaCirclePlay />
@@ -178,11 +245,13 @@ const VideoSection = ({ video }) => {
                   </button>
                 )}
               </div>
-              <div
-                onClick={changeSpeed}
-                className='speed-section w-16 text-xl text-black text-center rounded-xl mb-1 bg-white opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'
-              >
-                {playbackRate}x
+              <div className='flex justify-center'>
+                <div
+                  onClick={changeSpeed}
+                  className='w-16 text-xl text-black text-center font-bold rounded-xl mb-1 bg-white opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'
+                >
+                  {playbackRate}x
+                </div>
               </div>
             </div>
           </div>
@@ -210,9 +279,9 @@ const VideoSection = ({ video }) => {
             onClick={paused ? () => playVideo() : () => pauseVideo()}
             ref={videoRef}
             className='video rounded-2xl'
-          >
-            <source src={video.path} type='video/mp4' />
-          </video>
+            src={video.sources}
+            type='video/mp4'
+          ></video>
         </>
       )}
       <div></div>

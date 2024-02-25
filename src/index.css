@@ -25,14 +25,14 @@
   z-index: 100;
 }
 
-.thumbnail {
+/* .thumbnail {
   width: 25rem;
 }
 
 .thumbnail:hover {
   width: 100%;
   transition: all 210ms ease-in-out;
-}
+} */
 
 .timer-section {
   z-index: 100;
@@ -64,7 +64,7 @@
   opacity: 1;
 }
 
-.video-controls-container .play-pause-button {
+.video-controls-container .control-buttons {
   transform: translateX(-50%);
 }
 
