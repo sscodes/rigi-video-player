@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import VideoSection from './VideoSection';
-import Header from './Header';
-import Playlist from './Playlist';
+import React, { useContext, useEffect } from 'react';
 import VideoContext from '../context/VideoContext';
 import VideosContext from '../context/VideosContext';
+import Playlist from './Playlist';
+import VideoSection from './VideoSection';
 
 const Hero = () => {
-  const { setVideo } = useContext(VideoContext);
+  const { video, setVideo } = useContext(VideoContext);
   const { setVideos } = useContext(VideosContext);
 
   useEffect(() => {
@@ -25,14 +24,22 @@ const Hero = () => {
 
   return (
     <div className='grid grid-rows-12 h-screen'>
-      <Header />
-      <div className='row-span-10 grid grid-cols-7 align-middle'>
+      {video.title && (
+        <div className='grid grid-cols-7 items-end'>
+          <div className='col-span-5'>
+            <b className='text-5xl'>{video.title}</b>
+          </div>
+          <div className='col-span-2'>
+            <b className='text-4xl'>Browse movies...</b>
+          </div>
+        </div>
+      )}
+      <div className='row-span-11 grid grid-cols-7 align-middle'>
         <div className='col-span-7 lg:col-span-5 flex items-center'>
           <VideoSection />
         </div>
         <Playlist />
       </div>
-      <Header />
     </div>
   );
 };

@@ -16,7 +16,7 @@ const Playlist = () => {
     const dragElement = _videos.splice(dragItem, 1);
     const before = _videos.slice(0, dragEnterItem);
     const after = _videos.slice(dragEnterItem);
-    
+
     setVideos([...before, ...dragElement, ...after]);
     dragItem = null;
     dragEnterItem = null;
@@ -25,10 +25,6 @@ const Playlist = () => {
   return (
     <div className='playlist-container overflow-y-scroll col-span-7 lg:col-span-2'>
       <div className='grid grid-cols-1 p-4 gap-2 relative mb-10'>
-        <h1 className='text-4xl bg-colour'>
-          <b>Browse movies...</b>
-        </h1>
-
         {videos.length > 0 &&
           videos.map((video, index) => {
             return (
