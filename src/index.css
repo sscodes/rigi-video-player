@@ -6,6 +6,7 @@
   margin: 0;
   font-family: 'Roboto Condensed', sans-serif;
   color: white;
+  user-select: none;
 }
 
 *::-webkit-scrollbar {
@@ -25,14 +26,13 @@
   z-index: 100;
 }
 
-/* .thumbnail {
-  width: 25rem;
+.drag {
+  /* bor */
 }
 
-.thumbnail:hover {
-  width: 100%;
-  transition: all 210ms ease-in-out;
-} */
+.bg-colour {
+  background-color: rgb(0, 0, 26);
+}
 
 .timer-section {
   z-index: 100;

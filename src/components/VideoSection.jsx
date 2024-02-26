@@ -278,7 +278,7 @@ const VideoSection = () => {
             id='video'
             onClick={paused ? () => playVideo() : () => pauseVideo()}
             ref={videoRef}
-            className='video rounded-2xl'
+            className='video'
             src={video.sources}
             type='video/mp4'
           ></video>
