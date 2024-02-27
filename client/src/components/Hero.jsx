@@ -16,8 +16,8 @@ const Hero = () => {
         } else throw new Error('Error');
       })
       .then((data) => {
-        setVideo(data[0].videos[0]);
-        setVideos(data[0].videos);
+        setVideo(data.categories[0].videos[0]);
+        setVideos(data.categories[0].videos);
       })
       .catch((err) => console.log(err));
   }, []);
