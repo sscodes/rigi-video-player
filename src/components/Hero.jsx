@@ -9,7 +9,7 @@ const Hero = () => {
   const { setVideos } = useContext(VideosContext);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_PUBLIC_URL}/data.json`)
+    fetch('../../data.json')
       .then((res) => {
         if (res.ok) {
           return res.json();
