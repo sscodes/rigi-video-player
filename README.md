@@ -30,7 +30,7 @@ npm run dev
 - Used context to manage video playback, playlist state, and other necessary variables.
 - Used Tailwind CSS along with some custom to ensure a clean and user-friendly interface.
 - Completely responsive to suit any device it is used on.
-- Deployed both frontend using [render.com](https://render.com/) and backend using [vercel.com] (https://vercel.com/)
+- Deployed both frontend using [render.com](https://render.com/) and backend using [vercel.com](https://vercel.com/)
 
 ### Technologies used in the frontend:
 
@@ -42,4 +42,4 @@ npm run dev
 
 ### Lighthouse report:
 
-![LightHouseReport]('./LighthouseReport.png')
+![LightHouseReport](./LighthouseReport.png)
