@@ -25,17 +25,17 @@ const Hero = () => {
   return (
     <div className='grid grid-rows-12 h-screen'>
       {video.title && (
-        <div className='grid grid-cols-7 items-end'>
+        <div className='grid grid-cols-7 items-center lg:items-end'>
           <div className='col-span-5'>
-            <b className='text-5xl'>{video.title}</b>
+            <b className='text-2xl lg:text-5xl'>{video.title}</b>
           </div>
-          <div className='col-span-2'>
+          <div className='col-span-2 hidden lg:flex'>
             <b className='text-4xl'>Browse movies...</b>
           </div>
         </div>
       )}
       <div className='row-span-11 grid grid-cols-7 align-middle'>
-        <div className='col-span-7 lg:col-span-5 flex items-center'>
+        <div className='col-span-7 lg:col-span-5 flex items-center pb-4 lg:pb-0'>
           <VideoSection />
         </div>
         <Playlist />

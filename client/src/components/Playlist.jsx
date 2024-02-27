@@ -30,7 +30,7 @@ const Playlist = () => {
             return (
               <div
                 key={index}
-                className='cursor-move grid py-4 grid-cols-12 hover:border-t-2 hover:border-b-2 hover:border-white'
+                className='cursor-move grid py-4 h-36 lg:h-full grid-cols-12 hover:border-t-2 hover:border-b-2 hover:border-white'
                 draggable
                 onDragStart={() => (dragItem = index)}
                 onDragEnter={() => (dragEnterItem = index)}
@@ -39,11 +39,17 @@ const Playlist = () => {
                 <div className='col-span-2 text-white text-3xl flex items-center'>
                   <MdOutlineDragIndicator />
                 </div>
-                <div className='col-span-10 flex justify-end'>
+                <div className='col-span-6 lg:hidden text-center flex items-center'>
+                  <div className='w-full'>
+                    <h1 className='text-white'>{video.title}</h1>
+                    <p className='text-white'>{video.subtitle}</p>
+                  </div>
+                </div>
+                <div className='col-span-4 lg:col-span-10 flex justify-end'>
                   <div className='w-96 hover:w-full transition-all duration-200 ease-in-out flex justify-end'>
                     <img
                       src={video.thumb}
-                      className='rounded-2xl border-4 border-white'
+                      className='rounded-2xl border-4 border-white h-24 sm:h-36 lg:h-full'
                       alt='thumbnail'
                       onClick={() => setVideo(video)}
                     />

@@ -222,25 +222,25 @@ const VideoSection = () => {
                 ></div>
               </div>
             </div>
-            <div className='control-buttons absolute w-96 left-1/2 bottom-2 grid grid-cols-3 items-center'>
+            <div className='control-buttons absolute w-52 md:w-96 left-1/2 bottom-2 grid grid-cols-3 items-center'>
               <div className='flex justify-center' onClick={toggleAutoplay}>
                 {autoplay ? (
-                  <div className='text-white text-5xl'>
+                  <div className='text-white text-3xl md:text-5xl'>
                     <BsToggle2On />
                   </div>
                 ) : (
-                  <div className='text-white text-5xl'>
+                  <div className='text-white text-3xl md:text-5xl'>
                     <BsToggle2Off />
                   </div>
                 )}
               </div>
               <div className='flex justify-center play-pause-button opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'>
                 {paused ? (
-                  <button className='text-white text-5xl' onClick={playVideo}>
+                  <button className='text-white text-3xl md:text-5xl' onClick={playVideo}>
                     <FaCirclePlay />
                   </button>
                 ) : (
-                  <button className='text-white text-5xl' onClick={pauseVideo}>
+                  <button className='text-white text-3xl md:text-5xl' onClick={pauseVideo}>
                     <FaPauseCircle />
                   </button>
                 )}
@@ -248,7 +248,7 @@ const VideoSection = () => {
               <div className='flex justify-center'>
                 <div
                   onClick={changeSpeed}
-                  className='w-16 text-xl text-black text-center font-bold rounded-xl mb-1 bg-white opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'
+                  className='w-10 md:w-16 text-lg md:text-xl text-black text-center font-bold rounded-xl mb-1 bg-white opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'
                 >
                   {playbackRate}x
                 </div>
