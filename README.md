@@ -42,4 +42,4 @@ npm run dev
 
 ### Lighthouse report:
 
-![LightHouseReport]('LightHouseReport.png')
+![LightHouseReport]('./LighthouseReport.png')
