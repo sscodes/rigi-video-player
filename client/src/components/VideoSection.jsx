@@ -6,6 +6,10 @@ import VideoContext from '../context/VideoContext';
 import { BsToggle2On } from 'react-icons/bs';
 import { BsToggle2Off } from 'react-icons/bs';
 import VideosContext from '../context/VideosContext';
+import { RxSpeakerLoud } from 'react-icons/rx';
+import { RxSpeakerQuiet } from 'react-icons/rx';
+import { RxSpeakerOff } from 'react-icons/rx';
+import { RxSpeakerModerate } from 'react-icons/rx';
 
 const VideoSection = () => {
   const [progress, setProgress] = useState(50);
@@ -18,6 +22,9 @@ const VideoSection = () => {
     JSON.parse(localStorage.getItem('autoplay'))
   );
   const [nextVideo, setNextVideo] = useState({});
+  const [volumeLevel, setVolumeLevel] = useState(1);
+  const [showVolume, setShowVolume] = useState(false);
+  const [midAirPauseButton, setMidAirPauseButton] = useState(false);
 
   const { video, setVideo } = useContext(VideoContext);
   const { videos } = useContext(VideosContext);
@@ -145,6 +152,14 @@ const VideoSection = () => {
     if (!fullScreen) setFullScreenMouseMove('initial');
   }, [fullScreen]);
 
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      if (midAirPauseButton) setMidAirPauseButton(false);
+    }, 1000);
+
+    return () => clearTimeout(interval);
+  }, [midAirPauseButton]);
+
   const changeSpeed = () => {
     if (videoRef?.current) {
       videoRef.current.playbackRate += 0.25;
@@ -177,6 +192,59 @@ const VideoSection = () => {
     >
       {video?.title && (
         <>
+          <div
+            className={`volume-button-section ${
+              fullScreenMouseMove === 'hide' && 'hidden'
+            } absolute top-4 left-4 opacity-0 transition-opacity duration-700 h-20 ease-in-out grid grid-cols-1`}
+            onMouseEnter={() => setShowVolume(true)}
+            onMouseLeave={() => setShowVolume(false)}
+          >
+            <div className='volume-button col-span-1'>
+              {volumeLevel <= 1 && volumeLevel >= 0.76 ? (
+                <button
+                  className='text-white text-3xl'
+                  onClick={() => {
+                    console.log(videoRef.current.muted);
+                    videoRef.current.muted = !videoRef.current.muted;
+                    setVolumeLevel(0);
+                  }}
+                >
+                  <RxSpeakerLoud />
+                </button>
+              ) : volumeLevel <= 0.75 && volumeLevel >= 0.26 ? (
+                <button className='text-white text-3xl'>
+                  <RxSpeakerModerate />
+                </button>
+              ) : volumeLevel <= 0.25 && volumeLevel >= 0.1 ? (
+                <button className='text-white text-3xl'>
+                  <RxSpeakerQuiet />
+                </button>
+              ) : (
+                <button
+                  className='text-white text-3xl'
+                  onClick={() => {
+                    videoRef.current.muted = !videoRef.current.muted;
+                    videoRef.current.volume = 0.5;
+                    setVolumeLevel(50);
+                  }}
+                >
+                  <RxSpeakerOff />
+                </button>
+              )}
+            </div>
+            {showVolume && (
+              <div className='absolute -left-14 top-24 rotate-90'>
+                <input
+                  type='range'
+                  onChange={(e) => {
+                    videoRef.current.volume = e.target.value / 100;
+                    setVolumeLevel(e.target.value / 100);
+                  }}
+                  value={videoRef.current.volume * 100}
+                />
+              </div>
+            )}
+          </div>
           <div
             className={`full-screen-button-section ${
               fullScreenMouseMove === 'hide' && 'hidden'
@@ -236,11 +304,17 @@ const VideoSection = () => {
               </div>
               <div className='flex justify-center play-pause-button opacity-70 hover:opacity-100 transition-opacity duration-300 ease-in-out'>
                 {paused ? (
-                  <button className='text-white text-3xl md:text-5xl' onClick={playVideo}>
+                  <button
+                    className='text-white text-3xl md:text-5xl'
+                    onClick={playVideo}
+                  >
                     <FaCirclePlay />
                   </button>
                 ) : (
-                  <button className='text-white text-3xl md:text-5xl' onClick={pauseVideo}>
+                  <button
+                    className='text-white text-3xl md:text-5xl'
+                    onClick={pauseVideo}
+                  >
                     <FaPauseCircle />
                   </button>
                 )}
@@ -262,18 +336,23 @@ const VideoSection = () => {
           >
             {videoRef?.current && setFullTime(videoRef?.current?.duration)}
           </div>
-          {/* TODO: implement play pause Icon */}
-          {/* <div className='opacity-0 hover:opacity-100 transition-opacity duration-300 ease-in-out'>
+          <div
+            className={`${
+              midAirPauseButton ? 'opacity-75' : 'opacity-0'
+            } mid-pause-play-button absolute ${
+              paused ? 'opacity-75' : 'opacity-0'
+            } hover:opacity-100 transition-opacity duration-200 ease-in-out`}
+          >
             {paused ? (
-              <button className='text-white text-4xl' onClick={playVideo}>
+              <button className='text-white text-9xl' onClick={playVideo}>
                 <FaCirclePlay />
               </button>
             ) : (
-              <button className='text-white text-4xl' onClick={pauseVideo}>
+              <button className='text-white text-9xl' onClick={pauseVideo}>
                 <FaPauseCircle />
               </button>
             )}
-          </div> */}
+          </div>
           <video
             id='video'
             onClick={paused ? () => playVideo() : () => pauseVideo()}
@@ -281,6 +360,7 @@ const VideoSection = () => {
             className='video'
             src={video.sources}
             type='video/mp4'
+            onMouseMove={() => setMidAirPauseButton(true)}
           ></video>
         </>
       )}
